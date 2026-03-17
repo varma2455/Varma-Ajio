@@ -1,0 +1,649 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>AJIO Style Store</title>
+
+<style>
+
+/* GLOBAL */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#f5f5f5;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:grid;
+grid-template-columns:auto 1fr auto;
+align-items:center;
+padding:15px 40px;
+background:white;
+border-bottom:1px solid #ddd;
+position:sticky;
+top:0;
+z-index:10;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+letter-spacing:3px;
+}
+
+.logo a{
+text-decoration:none;
+color:black;
+}
+
+.menu{
+display:flex;
+justify-content:center;
+gap:20px;
+}
+
+.menu a{
+text-decoration:none;
+color:black;
+font-weight:600;
+font-size:14px;
+}
+
+.menu a:hover{
+color:#ff3d00;
+}
+
+.cart-btn{
+background:#e53935;
+color:white;
+padding:8px 12px;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+height:250px;
+background:
+linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
+url("https://images.unsplash.com/photo-1441986300917-64674bd600d8");
+background-size:cover;
+background-position:center;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+color:white;
+font-size:40px;
+font-weight:bold;
+}
+
+/* GRID */
+
+.grid{
+padding:20px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+cursor:pointer;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:contain;
+}
+
+.price{
+color:#e53935;
+font-weight:bold;
+}
+
+/* PRODUCT DETAIL */
+
+.detail{
+display:none;
+max-width:1100px;
+margin:40px auto;
+background:white;
+padding:30px;
+border-radius:10px;
+grid-template-columns:1fr 1fr;
+gap:40px;
+}
+
+/* IMAGE ZOOM */
+
+.zoom-container{
+overflow:hidden;
+cursor:zoom-in;
+}
+
+.zoom-container img{
+width:100%;
+transition:transform .3s;
+}
+
+.zoom-container:hover img{
+transform:scale(1.8);
+}
+
+/* VARIATIONS */
+
+.variation{
+margin-top:15px;
+}
+
+.sizes button{
+padding:8px 14px;
+margin:5px;
+border:1px solid #ccc;
+cursor:pointer;
+}
+
+.sizes button.active{
+background:black;
+color:white;
+}
+
+.colors button{
+width:25px;
+height:25px;
+border-radius:50%;
+margin:5px;
+border:none;
+cursor:pointer;
+}
+
+.black{background:black}
+.red{background:red}
+.blue{background:blue}
+
+/* QUANTITY */
+
+.qty{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
+
+.qty button{
+padding:8px 12px;
+}
+
+/* ADD TO CART */
+
+.add-cart-btn{
+width:100%;
+padding:18px;
+margin-top:20px;
+font-size:18px;
+font-weight:bold;
+background:linear-gradient(45deg,#ff3d00,#ff6d00);
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* CART PANEL */
+
+.cart-panel{
+position:fixed;
+right:-350px;
+top:0;
+width:350px;
+height:100%;
+background:white;
+box-shadow:-5px 0 10px rgba(0,0,0,.2);
+padding:20px;
+transition:.3s;
+overflow:auto;
+}
+
+.cart-panel.active{
+right:0;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.detail{
+grid-template-columns:1fr;
+}
+
+}
+
+.navbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px 40px;
+background:white;
+border-bottom:1px solid #ddd;
+position:sticky;
+top:0;
+z-index:10;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+letter-spacing:4px;
+}
+
+.logo a{
+    text-decoration: none;
+    color: black;
+}
+
+.menu{
+display:flex;
+gap:25px;
+}
+
+.menu a{
+text-decoration:none;
+color:black;
+font-weight:600;
+font-size:14px;
+}
+
+.menu a:hover{
+color:#e53935;
+}
+
+.right{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.search{
+border:1px solid #ccc;
+padding:6px 10px;
+border-radius:20px;
+display:flex;
+align-items:center;
+}
+
+.search input{
+border:none;
+outline:none;
+}
+
+.icon{
+font-size:18px;
+cursor:pointer;
+}
+
+.cart{
+position:relative;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <div class="logo"><a href="./Index.html"></ahref>AJIO</div>
+    
+    <nav class="menu">
+    
+    <a href="#">MEN</a>
+    <a href="#">WOMEN</a>
+    <a href="#">KIDS</a>
+    <a href="#">BEAUTY</a>
+    <a href="#">HOME</a>
+    <a href="#">FOOTWEAR</a>
+    <a href="#">BAGS</a>
+    <a href="#">JEWELRY</a>
+    <a href="#">WATCHES</a>
+    <a href="#">SPORTSWEAR</a>
+    <a href="./Product.html">Shop Products</a>
+    
+    </nav>
+    
+    <div class="right">
+    
+    <div class="search">
+    <input type="text" placeholder="Search AJIO">
+    <i class="fa fa-search"></i>
+    </div>
+    
+    <div class="icon" onclick="gotowish()">
+    <i class="fa fa-heart"></i>
+    <span class="badge" id="cart-count">0</span>
+    </div>
+    
+    <div class="icon cart" onclick="goToCart()">
+        <i class="fa fa-shopping-bag"></i>
+        <span class="badge" id="cart-count">0</span>
+        </div>
+    
+    <div class="icon" onclick="goToProfile()">
+        <i class="fa fa-user"></i>
+        </div>
+    </div>
+    
+    </div>
+
+<div class="hero">BIG FASHION SALE</div>
+
+<div id="grid" class="grid"></div>
+
+<!-- PRODUCT DETAIL -->
+
+<div id="detail" class="detail">
+
+<div class="zoom-container">
+<img id="detail-img">
+</div>
+
+<div>
+
+<button onclick="back()">⬅ Back</button>
+
+<h2 id="title"></h2>
+
+<p>Price: $<span id="price"></span></p>
+
+<p>Total: $<span id="total-price"></span></p>
+
+<!-- SIZE -->
+
+<div class="variation">
+
+<h4>Select Size</h4>
+
+<div class="sizes">
+<button class="size">S</button>
+<button class="size">M</button>
+<button class="size">L</button>
+<button class="size">XL</button>
+</div>
+
+<h4>Select Color</h4>
+
+<div class="colors">
+<button class="color black"></button>
+<button class="color red"></button>
+<button class="color blue"></button>
+</div>
+
+</div>
+
+<!-- QUANTITY -->
+
+<div class="qty">
+
+<button onclick="dec()">−</button>
+<span id="qty">1</span>
+<button onclick="inc()">+</button>
+
+</div>
+
+<button class="add-cart-btn" onclick="addCart()">🛒 Add to Cart</button>
+
+</div>
+
+</div>
+
+<!-- CART -->
+
+<div id="cart-panel" class="cart-panel">
+
+<h2>Cart</h2>
+
+<div id="cart-items"></div>
+
+<h3>Total: $<span id="cart-total">0</span></h3>
+
+</div>
+
+<script>
+
+const API="https://fakestoreapi.com/products"
+
+let products=[]
+let cart=JSON.parse(localStorage.getItem("cart"))||[]
+let current=null
+let qty=1
+
+const grid=document.getElementById("grid")
+const detail=document.getElementById("detail")
+
+updateCart()
+
+/* FETCH PRODUCTS */
+
+fetch(API)
+.then(res=>res.json())
+.then(data=>{
+products=data
+display(products)
+})
+
+/* DISPLAY GRID */
+
+function display(list){
+
+grid.innerHTML=""
+
+list.forEach(p=>{
+
+const card=document.createElement("div")
+card.className="card"
+
+card.innerHTML=`
+
+<img src="${p.image}">
+<h4>${p.title}</h4>
+<p class="price">$${p.price}</p>
+
+`
+
+card.onclick=()=>viewProduct(p)
+
+grid.appendChild(card)
+
+})
+
+}
+
+/* PRODUCT DETAIL */
+
+function openProduct(p){
+
+current=p
+qty=1
+
+grid.style.display="none"
+detail.style.display="grid"
+
+document.getElementById("detail-img").src=p.image
+document.getElementById("title").innerText=p.title
+document.getElementById("price").innerText=p.price
+
+updateTotal()
+
+}
+
+/* BACK */
+
+function back(){
+
+detail.style.display="none"
+grid.style.display="grid"
+
+}
+
+/* SIZE SELECT */
+
+document.querySelectorAll(".size").forEach(btn=>{
+btn.onclick=()=>{
+document.querySelectorAll(".size").forEach(b=>b.classList.remove("active"))
+btn.classList.add("active")
+}
+})
+
+/* QUANTITY */
+
+function inc(){
+if(qty<10){
+qty++
+updateTotal()
+}
+}
+
+function dec(){
+if(qty>1){
+qty--
+updateTotal()
+}
+}
+
+function updateTotal(){
+document.getElementById("qty").innerText=qty
+document.getElementById("total-price").innerText=(current.price*qty).toFixed(2)
+}
+
+/* CART */
+
+function addCart(){
+
+const size=document.querySelector(".size.active")?.innerText || "Default"
+
+const item={
+title:current.title,
+price:current.price,
+image:current.image,
+size:size,
+qty:qty
+}
+
+cart.push(item)
+
+localStorage.setItem("cart",JSON.stringify(cart))
+
+updateCart()
+
+const btn=document.querySelector(".add-cart-btn")
+
+btn.innerHTML="✔ Added"
+
+btn.style.background="green"
+
+setTimeout(()=>{
+btn.innerHTML="🛒 Add to Cart"
+btn.style.background="linear-gradient(45deg,#ff3d00,#ff6d00)"
+},1500)
+
+}
+
+/* CART UPDATE */
+
+function updateCart(){
+
+document.getElementById("cart-count").innerText=cart.length
+
+const items=document.getElementById("cart-items")
+
+items.innerHTML=""
+
+let total=0
+
+cart.forEach(p=>{
+
+total+=p.price*p.qty
+
+items.innerHTML+=`
+
+<div>
+<img src="${p.image}" width="40">
+${p.title.substring(0,25)}
+x${p.qty}
+</div>
+
+`
+
+})
+
+document.getElementById("cart-total").innerText=total.toFixed(2)
+
+}
+
+/* CART PANEL */
+
+function toggleCart(){
+document.getElementById("cart-panel").classList.toggle("active")
+}
+
+function goToCart(){
+    window.location.href = "cart.html"
+}
+
+
+function goToProfile(){
+window.location.href="profile.html";
+}
+
+function gotowish(){
+window.location.href="wishlist.html";
+}
+
+
+function viewProduct(p){
+
+const product = {
+title: p.title,
+price: p.price,
+image: p.image
+}
+
+localStorage.setItem("viewProduct", JSON.stringify(product))
+
+window.location.href = "wishlist.html"
+
+}
+</script>
+
+</body>
+</html>
+```
